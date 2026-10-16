@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birth Day❤️</title>
+
+    <!-- Google Fonts (Cairo & Tajawal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti for Candle Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FAF8F5',
+                            100: '#F5EFE6',
+                            200: '#E8DFD8',
+                            300: '#D3C5BB',
+                            400: '#A69285',
+                            800: '#4A3E3D',
+                            900: '#2C2221',
+                        },
+                        gold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #FAF8F5;
+            color: #4A3E3D;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Glassmorphism elements */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(232, 223, 216, 0.6);
+            box-shadow: 0 10px 30px rgba(74, 62, 61, 0.05);
+        }
+
+        /* Fullscreen Hero Background Setup */
+        .bg-hero-photo {
+            background-image: linear-gradient(to bottom, rgba(44, 34, 33, 0.45), rgba(44, 34, 33, 0.25)),
+                url('WhatsApp Image 2026-10-16 at 12.23.13 PM.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Typing effect cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 0.8s infinite;
+            color: #ffffff;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Candle Flame Animation */
+        .flame {
+            background: radial-gradient(ellipse at bottom, #FFD700 0%, #FF8C00 50%, transparent 80%);
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 15px #FFD700, 0 0 25px #FF8C00;
+            animation: flicker 0.15s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: scale(1) rotate(-1deg);
+                opacity: 0.95;
+            }
+
+            100% {
+                transform: scale(1.08) rotate(1deg);
+                opacity: 1;
+            }
+        }
+
+        .flame.extinguished {
+            display: none;
+        }
+
+        .smoke {
+            display: none;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 20px;
+            background: rgba(200, 200, 200, 0.6);
+            border-radius: 10px;
+            filter: blur(4px);
+            animation: rise 2s forwards;
+        }
+
+        @keyframes rise {
+            0% {
+                opacity: 0.8;
+                transform: translate(-50%, 0) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -40px) scale(2.5);
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between selection:bg-cream-200">
+
+    <!-- ==================== SECTION 1: COUNTDOWN & INTRO ==================== -->
+    <div id="intro-screen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-cream-100 transition-opacity duration-700">
+        <div id="countdown-box" class="text-center px-6">
+            <span id="countdown-num"
+                class="text-8xl font-black text-cream-800 tracking-wider animate-bounce inline-block">1</span>
+            <p class="mt-4 text-lg text-cream-400 font-medium">جاهزة لمفاجأتك يا خالتو؟ ✨</p>
+        </div>
+    </div>
+
+    <!-- ==================== SECTION 2: HERO PHOTO & TYPING ==================== -->
+    <section id="hero-section"
+        class="relative min-h-screen bg-hero-photo flex flex-col justify-between items-center px-6 py-12 text-center text-white">
+        <!-- Floating overlay status -->
+        <div class="pt-6">
+            <span
+                class="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold tracking-widest text-cream-50 border border-white/30 uppercase">
+                Happy Birthday
+            </span>
+        </div>
+
+        <!-- Central Typing Effect & Greeting -->
+        <div class="my-auto max-w-sm w-full space-y-4">
+            <h1 id="typewriter-text"
+                class="text-2xl sm:text-3xl font-extrabold tracking-wider text-white typing-cursor min-h-[3rem] flex items-center justify-center">
+            </h1>
+
+            <div id="arabic-subtitle" class="opacity-0 transition-opacity duration-1000 space-y-2">
+
+                <p class="text-xs text-cream-200 font-light">جمعنا لكِ أجمل الذكريات في مكان واحد خصيصاً لكي</p>
+            </div>
+        </div>
+
+        <!-- Action Button to Scroll Down -->
+        <div id="hero-btn-container" class="opacity-0 transition-all duration-1000 w-full max-w-xs pb-6">
+            <button onclick="scrollToContent()"
+                class="w-full py-3.5 px-6 rounded-full bg-cream-100 text-cream-800 font-bold text-base shadow-lg hover:bg-white active:scale-95 transition duration-200 flex items-center justify-center gap-2">
+                <span>يلا بينا نفتح المفاجأة</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-bounce" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT AREA (MOBILE FIRST) -->
+    <main id="main-content" class="flex-1 max-w-md mx-auto w-full px-4 py-8 space-y-12">
+
+        <!-- ==================== SECTION 3: PHOTO GALLERY ==================== -->
+        <section id="gallery" class="space-y-4 pt-4">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-cream-800">📸 معرض ذكريات العيلة</h2>
+                <p class="text-xs text-cream-400">أجمل اللحظات والمواقف اللي جمعتنا سوا</p>
+            </div>
+
+            <!-- Upload Custom Photo Button -->
+            <div class="glass-card p-3 rounded-2xl flex items-center justify-between">
+                <span class="text-xs font-semibold text-cream-800">عندك صورة جديدة لخالتو؟</span>
+                <label
+                    class="cursor-pointer bg-cream-800 text-white text-xs font-bold py-1.5 px-3 rounded-xl hover:bg-cream-900 transition">
+                    إضافة صورة
+                    <input type="file" accept="image/*" class="hidden" onchange="uploadPhoto(event)">
+                </label>
+            </div>
+
+            <!-- Vertical Stacked Photos for Mobile -->
+            <div id="photo-container" class="space-y-4">
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.22.20 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.22.29 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.22.31 PM5.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.22.33 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.22.35 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.22.43 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.22.53 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.22.58 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.09 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.11 PM (1).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.11 PM (3).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.11 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.12 PM (2).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.12 PM (3).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.12 PM (4).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.12 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.13 PM (2).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.13 PM (3).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.13 PM (5).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.23.14 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.50.23 PM (1).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.50.23 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.50.24 PM (1).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.50.24 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.50.26 PM (2).jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+
+                <div class="glass-card p-3 rounded-2xl overflow-hidden space-y-2">
+                    <img src="WhatsApp Image 2026-10-16 at 12.50.28 PM.jpeg" alt="ذكريات العيلة"
+                        class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== SECTION 4: ANONYMOUS MESSAGES ==================== -->
+        <section id="messages" class="space-y-4">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-cream-800"> خمني مين؟</h2>
+                <p class="text-xs text-cream-400">رسايل من غير أسماء... يا ترى هتعرفينا؟</p>
+            </div>
+
+            <div id="messages-list" class="space-y-3">
+                <!-- Card 1 -->
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"طفلتي الصغيره حابه اقولك كل سنه وأنتى معايا
+                        ومنوره حياتى واكتر حاجه هتسعدنى ناحيتك أنى اشوفك دايما مبسوطه وربنا بيحققلك كل اللى نفسك
+                        فيه،،،،،بحببببببببك"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(1)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"كل سنه وانتي طيبه يا قمر ♥️"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"بنوتى وحبيبت قلبى زوزو كل سنه وانتى طيبه كل سنه
+                        وانتى سحلانى معاكى فى افكارك الغريبه العجيبه يارب يباركلى فيكى ويحفظك من كل شر ويارب السنه
+                        الجايه أعيد عليكى وانتى فى شقتك وتكونى مبسوطه بكل حاجه فيها وتعيشى فيها أجمل السنين يارب بحبك
+                        اوى يازوزو 😘"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"كل سنه ونتي طيبيه🥰❤️❤️"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"كل سنه وانتى طيبه يا زوز
+                        اختى وصاحبتى وحبيبه قلبى ربنا يخليكى ليا ويفرح قلبك قريب وان شاء الله السنه الجايه تكونى حققتى
+                        كل اللى نفسك فيه وتكون فى شقتك وتكونى عملتى كل اللى بتحلمى بيه وتكونى بصحه وخير بحبك اووووووى
+                        كل سنه وانتى طيبه يا توينزى 😉❤️"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"كل سنة وانتي وحبايبك بكل خير يا قلب اخوكي يصلح
+                        حالك ويوفقك ويرزقك السعادة في الدنيا والآخرة ويصرف عنكم كل سوء يا رب
+                        عيد ميلاد سعيد يا كتكوتة"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"كل سنه وانتي طيبه يا احلى خالتو في الدنيا بجد
+                        بحبك اوي ❤️🥳"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"كل سنه وانتي طيبه يااحلي يازوزا ويارب دايما معانا
+                        ويارب اشوفك محققه كل اللي نفسك فيه واشوفك دايما مبسوطه
+                        بحبك يازوزاا"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"زيزي كل سنه وانت طيبه بحبك اوي"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl space-y-3">
+                    <p class="text-sm text-cream-800 leading-relaxed">"كل سنه وانت طيبه يا زوزتى وكل سنه وانت دايما
+                        معانا وربنا يحققلك كل اللى بتتمنيه يارب ....... كل سنه وانت طيبه يا بونبناية العيله ❤️"</p>
+                    <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                        <button onclick="toggleHint(2)"
+                            class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                            <span>🤔 خمني مين كاتب الرسالة؟</span>
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Add Custom Message -->
+                <div class="glass-card p-3.5 rounded-2xl space-y-2">
+                    <p class="text-xs font-bold text-cream-800">عايزة تكتبي رسالة إضافية لخالتو؟</p>
+                    <textarea id="new-msg-text" rows="2"
+                        class="w-full text-xs p-2.5 rounded-xl border border-cream-200 bg-white/70 focus:outline-none focus:ring-1 focus:ring-cream-400"
+                        placeholder="اكتبي رسالتك هنا..."></textarea>
+                    <input id="new-msg-hint" type="text"
+                        class="w-full text-xs p-2 rounded-xl border border-cream-200 bg-white/70 focus:outline-none focus:ring-1 focus:ring-cream-400"
+                        placeholder="تلميح يخليها تخمن مين أنتِ...">
+                    <button onclick="addNewMessage()"
+                        class="w-full py-2 bg-cream-800 text-white text-xs font-bold rounded-xl hover:bg-cream-900 transition">إضافة
+                        الرسالة</button>
+                </div>
+        </section>
+
+        <!-- ==================== SECTION 5: SECRET VOICE MESSAGE ==================== -->
+        <section id="secret-section" class="space-y-4">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-cream-800">🔒 الرسالة السرية</h2>
+                <p class="text-xs text-cream-400">قسم مغلق محتاج كلمة السر الخاصة بكِ</p>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl text-center space-y-4">
+                <div id="passcode-box" class="space-y-3">
+                    <div
+                        class="w-12 h-12 rounded-full bg-cream-100 flex items-center justify-center mx-auto text-cream-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 002-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+
+                    <p class="text-xs font-medium text-cream-800">ادخلي كلمة السر لتشغيل التسجيل الصوتي الخاص:</p>
+
+                    <div class="flex justify-center gap-2 dir-ltr">
+                        <input type="password" id="pass-input" placeholder="***" maxlength="10" dir="ltr"
+                            class="w-32 text-center text-lg font-bold tracking-widest py-2 rounded-xl border border-cream-300 bg-white focus:outline-none focus:ring-2 focus:ring-cream-800">
+                        <button onclick="unlockSecret()"
+                            class="px-4 bg-cream-800 text-white text-xs font-bold rounded-xl hover:bg-cream-900 transition">فتح</button>
+                    </div>
+
+                    <p id="pass-error" class="hidden text-xs text-red-500 font-semibold">كلمة السر غير صحيحة، حاولي مرة
+                        أخرى!</p>
+
+                    <!-- Hint -->
+                    <div class="pt-2 border-t border-cream-200">
+                        <p class="text-xs text-cream-400">💡 <b>تلميح:</b> عيد جوازك</p>
+                    </div>
+                </div>
+
+                <!-- Unlocked Content (Voice Note Player) -->
+                <div id="unlocked-box" class="hidden space-y-4 text-center animate-fade-in">
+                    <span class="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">تم
+                        الفتح بنجاح 🎉</span>
+
+                    <h3 class="text-base font-bold text-cream-800">🎙️ تسجيل صوتي خاص جداً</h3>
+                    <p class="text-xs text-cream-400 leading-relaxed">اسمعي الرسالة الصوتية المجهّزة لكِ بكل الحب:</p>
+
+                    <!-- Custom Audio Player -->
+                    <div class="bg-cream-100 p-4 rounded-xl space-y-3 border border-cream-200">
+                        <audio id="secret-audio" src="AUD-20261016-WA0011.opus" class="hidden"></audio>
+
+                        <div class="flex items-center justify-center gap-4">
+                            <button id="play-audio-btn" onclick="toggleAudio()"
+                                class="w-12 h-12 rounded-full bg-cream-800 text-white flex items-center justify-center shadow-md hover:scale-105 transition">
+                                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
+
+                            <div class="text-right flex-1">
+                                <p class="text-xs font-bold text-cream-800">رسالة ليكى</p>
+                                <span id="audio-time" class="text-[10px] text-cream-400">اضغطي للاستماع</span>
+                            </div>
+                        </div>
+
+                        <!-- Audio file selector to upload real voice recording -->
+                        <div
+                            class="pt-2 border-t border-cream-200 flex justify-between items-center text-[11px] text-cream-400">
+
+                            <label class="cursor-pointer font-bold text-cream-800 underline">
+
+                                <input type="file" accept="audio/*" class="hidden" onchange="loadAudioFile(event)">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 6: BLOW CANDLE ==================== -->
+        <section id="cake-section" class="space-y-4 pb-12">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-cream-800">🎂 طفي الشمعة واتمني أمنية</h2>
+                <p class="text-xs text-cream-400">اضغطي على الشمعة لإطفائها واكتشاف التهنئة الأخيرة</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl text-center space-y-6">
+                <!-- Interactive Cake & Candle -->
+                <div class="relative w-40 h-40 mx-auto flex flex-col items-center justify-end">
+                    <!-- Candle Container -->
+                    <div id="candle" onclick="blowCandle()"
+                        class="cursor-pointer relative z-10 flex flex-col items-center group">
+                        <!-- Flame -->
+                        <div id="flame" class="flame w-4 h-7 mb-1 transition-all"></div>
+                        <!-- Smoke -->
+                        <div id="smoke" class="smoke"></div>
+                        <!-- Candle Stick -->
+                        <div class="w-3 h-12 bg-gradient-to-b from-cream-200 to-cream-300 rounded-t-sm shadow-inner">
+                        </div>
+                    </div>
+
+                    <!-- Cake Base -->
+                    <div
+                        class="w-36 h-20 bg-cream-200 rounded-t-2xl relative shadow-md flex items-center justify-center border-t-4 border-white">
+                        <div class="absolute top-2 w-full flex justify-around">
+                            <span class="w-3 h-3 rounded-full bg-white opacity-80"></span>
+                            <span class="w-3 h-3 rounded-full bg-white opacity-80"></span>
+                            <span class="w-3 h-3 rounded-full bg-white opacity-80"></span>
+                        </div>
+                        <span class="text-xs font-extrabold text-cream-800 tracking-wider">سنة حلوة يا زوزو</span>
+                    </div>
+                </div>
+
+                <div id="candle-status" class="text-xs font-semibold text-cream-800">
+                    اضغطي على الشمعة لإطفائها ✨
+                </div>
+
+                <!-- Wish Card revealed after blowing candle -->
+                <div id="wish-revealed"
+                    class="hidden glass-card p-4 rounded-xl bg-white/90 space-y-2 border border-cream-200 animate-fade-in">
+                    <p class="text-base font-bold text-cream-800">🎉 سنة جديدة مليانة بالخير والصحة والرضا!</p>
+                    <p class="text-xs text-cream-800 leading-relaxed">نتمنى لكِ أياماً تشبه طيبة قلبك، وبسمة لا تفارق
+                        وجهك، وعاماً جديداً يحقق لكِ كل ما تتمنين وزيادة. بنحبك جداً يا خالتو ❤️</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/80 hidden items-center justify-center p-4"
+        onclick="closeLightbox()">
+        <img id="lightbox-img" src="" class="max-w-full max-h-[85vh] rounded-2xl shadow-2xl object-contain">
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // 1. Countdown Logic & Safe Photo Loading
+        document.addEventListener("DOMContentLoaded", () => {
+            const countNum = document.getElementById("countdown-num");
+            const introScreen = document.getElementById("intro-screen");
+            let count = 1;
+
+            const interval = setInterval(() => {
+                count++;
+                if (count <= 3) {
+                    countNum.innerText = count;
+                } else {
+                    clearInterval(interval);
+                    introScreen.classList.add("opacity-0");
+                    setTimeout(() => {
+                        introScreen.style.display = "none";
+                        startTypewriter();
+                    }, 700);
+                }
+            }, 800);
+
+            // Safe Load Saved Photos
+            try {
+                const savedPhotos = JSON.parse(localStorage.getItem('zouzou_custom_photos') || '[]');
+                const container = document.getElementById("photo-container");
+                if (Array.isArray(savedPhotos)) {
+                    savedPhotos.forEach(photo => {
+                        const newCard = document.createElement("div");
+                        newCard.className = "glass-card p-3 rounded-2xl overflow-hidden space-y-2";
+                        newCard.innerHTML = `
+                            <img src="${photo}" class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                            <div class="px-1">
+                                <p class="text-sm font-bold text-cream-800">صورة جديدة ✨</p>
+                                <p class="text-xs text-cream-400">ذكريات جديدة انضمت للمعرضو.</p>
+                            </div>
+                        `;
+                        container.prepend(newCard);
+                    });
+                }
+            } catch (e) {
+                console.log("LocalStorage clean reset");
+            }
+        });
+
+        // 2. Typewriter Effect
+        const textToType = "H A P P Y   B I R T H D A Y   Z O Z O ❤️";
+        let typeIndex = 0;
+
+        function startTypewriter() {
+            const el = document.getElementById("typewriter-text");
+            const arabicSub = document.getElementById("arabic-subtitle");
+            const heroBtn = document.getElementById("hero-btn-container");
+
+            if (!el) return;
+
+            function type() {
+                if (typeIndex < textToType.length) {
+                    el.innerHTML += textToType.charAt(typeIndex);
+                    typeIndex++;
+                    setTimeout(type, 100);
+                } else {
+                    el.classList.remove("typing-cursor");
+                    if (arabicSub) arabicSub.classList.remove("opacity-0");
+                    if (heroBtn) heroBtn.classList.remove("opacity-0");
+                }
+            }
+            type();
+        }
+
+        // 3. Scroll Helper
+        function scrollToContent() {
+            const gallery = document.getElementById("gallery");
+            if (gallery) gallery.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 4. Lightbox Functions
+        function openLightbox(src) {
+            const lightbox = document.getElementById("lightbox");
+            const img = document.getElementById("lightbox-img");
+            if (lightbox && img) {
+                img.src = src;
+                lightbox.classList.remove("hidden");
+                lightbox.classList.add("flex");
+            }
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById("lightbox");
+            if (lightbox) {
+                lightbox.classList.add("hidden");
+                lightbox.classList.remove("flex");
+            }
+        }
+
+        // 5. Dynamic Photo Upload with LocalStorage Persistence
+        function uploadPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const base64Image = e.target.result;
+
+                    try {
+                        const savedPhotos = JSON.parse(localStorage.getItem('zouzou_custom_photos') || '[]');
+                        savedPhotos.push(base64Image);
+                        localStorage.setItem('zouzou_custom_photos', JSON.stringify(savedPhotos));
+                    } catch (err) {
+                        console.error(err);
+                    }
+
+                    const container = document.getElementById("photo-container");
+                    if (container) {
+                        const newCard = document.createElement("div");
+                        newCard.className = "glass-card p-3 rounded-2xl overflow-hidden space-y-2";
+                        newCard.innerHTML = `
+                            <img src="${base64Image}" class="w-full h-56 object-cover rounded-xl" onclick="openLightbox(this.src)">
+                            <div class="px-1">
+                                <p class="text-sm font-bold text-cream-800">صورة جديدة ✨</p>
+                                <p class="text-xs text-cream-400">ذكريات جديدة انضمت لمعرض خالتو.</p>
+                            </div>
+                        `;
+                        container.prepend(newCard);
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 6. Anonymous Message Hint Toggle
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            if (hint) {
+                hint.classList.toggle("hidden");
+            }
+        }
+
+        function addNewMessage() {
+            const textInput = document.getElementById("new-msg-text");
+            const hintInput = document.getElementById("new-msg-hint");
+
+            if (!textInput || !textInput.value.trim()) return;
+
+            const list = document.getElementById("messages-list");
+            const msgId = Date.now();
+            const newCard = document.createElement("div");
+            newCard.className = "glass-card p-4 rounded-2xl space-y-3";
+            newCard.innerHTML = `
+                <p class="text-sm text-cream-800 leading-relaxed">"${textInput.value.trim()}"</p>
+                <div class="pt-2 border-t border-cream-200/60 flex items-center justify-between">
+                    <button onclick="toggleHint('${msgId}')" class="text-xs font-semibold text-cream-400 hover:text-cream-800 transition flex items-center gap-1">
+                        <span>🤔 خمني مين كاتب الرسالة؟</span>
+                    </button>
+                </div>
+                <div id="hint-${msgId}" class="hidden text-xs bg-cream-100 p-2.5 rounded-xl text-cream-800 font-medium">
+                    💡 تلميح: ${hintInput.value.trim() || 'شخص بحبك جداً!'}
+                </div>
+            `;
+            if (list) list.prepend(newCard);
+            textInput.value = "";
+            if (hintInput) hintInput.value = "";
+        }
+
+        // Normalize Arabic numerals to Western digits (e.g. ١٣٧ -> 137)
+        function normalizeDigits(str) {
+            return str.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+        }
+
+        // 7. Secret Message Lock Logic
+        function unlockSecret() {
+            const passInput = document.getElementById("pass-input");
+            const passError = document.getElementById("pass-error");
+            if (!passInput) return;
+
+            const inputVal = passInput.value.trim();
+            const normalizedInput = normalizeDigits(inputVal);
+
+            if (normalizedInput === "317") {
+                const passcodeBox = document.getElementById("passcode-box");
+                const unlockedBox = document.getElementById("unlocked-box");
+                if (passcodeBox) passcodeBox.classList.add("hidden");
+                if (unlockedBox) unlockedBox.classList.remove("hidden");
+
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 80,
+                        spread: 60,
+                        origin: { y: 0.7 }
+                    });
+                }
+            } else {
+                if (passError) passError.classList.remove("hidden");
+            }
+        }
+
+        // 8. Audio Player Handling
+        function toggleAudio() {
+            const audio = document.getElementById("secret-audio");
+            const playIcon = document.getElementById("play-icon");
+            const pauseIcon = document.getElementById("pause-icon");
+            const audioTime = document.getElementById("audio-time");
+            if (!audio) return;
+
+            if (!audio.src || audio.src === window.location.href) {
+                if ('speechSynthesis' in window) {
+                    const msg = new SpeechSynthesisUtterance("كل سنة وانت طيبة يا زوزو");
+                    msg.lang = 'ar-SA';
+                    window.speechSynthesis.speak(msg);
+                    if (audioTime) audioTime.innerText = "";
+                    return;
+                }
+            }
+
+            if (audio.paused) {
+                audio.play();
+                if (playIcon) playIcon.classList.add("hidden");
+                if (pauseIcon) pauseIcon.classList.remove("hidden");
+                if (audioTime) audioTime.innerText = "جاري الاستماع... 🎵";
+            } else {
+                audio.pause();
+                if (playIcon) playIcon.classList.remove("hidden");
+                if (pauseIcon) pauseIcon.classList.add("hidden");
+                if (audioTime) audioTime.innerText = "تم إيقاف التسجيل مؤقتاً";
+            }
+        }
+
+        function loadAudioFile(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const audio = document.getElementById("secret-audio");
+                const audioTime = document.getElementById("audio-time");
+                if (audio) {
+                    audio.src = AUD - 20261016 - WA0011.opus;
+                    if (audioTime) audioTime.innerText = "جاهز للتشغيل (" + file.name + ")";
+                }
+            }
+        }
+
+        // 9. Blow Candle Interaction
+        let isBlown = false;
+        function blowCandle() {
+            if (isBlown) return;
+            isBlown = true;
+
+            const flame = document.getElementById("flame");
+            const smoke = document.getElementById("smoke");
+            const status = document.getElementById("candle-status");
+            const wishBox = document.getElementById("wish-revealed");
+
+            if (flame) flame.classList.add("extinguished");
+            if (smoke) smoke.style.display = "block";
+            if (status) status.innerText = "";
+
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 120,
+                    spread: 90,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            setTimeout(() => {
+                if (wishBox) wishBox.classList.remove("hidden");
+            }, 600);
+        }
+    </script>
+</body>
+
+</html>
